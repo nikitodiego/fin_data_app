@@ -1,0 +1,7 @@
+pandas
+datetime
+google.cloud
+gcsfs
+matplotlib
+requests
+python-dotenv
