@@ -22,6 +22,8 @@ jobs:
           pip install requests pytest
 
       - name: Run pytest
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
         run: |
           cd testing
           pytest
