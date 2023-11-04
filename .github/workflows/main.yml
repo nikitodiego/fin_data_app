@@ -22,7 +22,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd testing
-          pip install requests pytest python-dotenv
+          pip install requests pytest
 
       - name: Run pytest
         run: |
