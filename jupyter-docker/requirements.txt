@@ -1,0 +1,12 @@
+google-cloud
+google-cloud-bigquery
+google-cloud-storage
+google-api-core
+google-auth
+google-auth-oauthlib
+gcsfs
+pandas
+matplotlib
+db-dtypes
+dash
+yfinance
