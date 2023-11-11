@@ -28,3 +28,4 @@ jobs:
         run: |
           cd testing
           pytest
+          python testing.py
