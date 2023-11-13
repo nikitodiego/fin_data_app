@@ -13,19 +13,19 @@ def api_call(**context):
     time.sleep(30)
     date=context['ds']
     if (0<= datetime.datetime.strptime(date,'%Y-%m-%d').date().weekday()<5):
-        try:
-            response = requests.get(f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{date}?adjusted=true&apiKey={os.getenv('API_KEY')}")
-            data = response.json()
-        except: 
-            logging.error(f'{response.status_code}')
+        response = requests.get(f"https://api.polygon.io/v2/aggs/grouped/locale/us/market/stocks/{date}?adjusted=true&apiKey={os.getenv('API_KEY')}")
+        data = response.json()
+        response.raise_for_status()
         if (data["resultsCount"]>0): 
             df = pd.DataFrame(data["results"])
             df2=df[["T", "o","c","h","l"]]
             df2.rename(columns = {'T':'Ticker','o':'open','c':'close','h':'high','l':'low'}, inplace = True)
             df2.to_parquet(f'gcs://bucket_dev01/data/{date}.parquet')
             return {"msg":"Data loaded"}
-        else: logging.info('No market ops day')
-    else: logging.info('Weekend day')        
+        else: 
+            logging.info('No market ops day')
+    else: 
+        logging.info('Weekend day')        
 
 
 def bucket_to_bq(**context):
@@ -35,7 +35,7 @@ def bucket_to_bq(**context):
         client = bigquery.Client()
         df = pd.read_parquet(f'gcs://bucket_dev01/data/{date}.parquet')
         df["date"]=date
-        table_id = "analog-provider-400614.dataset_dev.tickers_optim_named"
+        table_id = os.getenv('TABLE_ID')
 
         job_config = bigquery.LoadJobConfig(
         schema=[
@@ -49,5 +49,6 @@ def bucket_to_bq(**context):
         load_job = client.load_table_from_dataframe(df, table_id, job_config=job_config)  
         load_job.result() 
         return {"msg":"Data loaded in BigQuery"}
-    else: return {"msg":"No file found"}
+    else: 
+        return {"msg":"No file found"}
 
