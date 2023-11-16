@@ -1,15 +1,15 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from test_function import api_call  # replace with your actual module
+from dags.data.app_functions_optim import api_call  # replace with your actual module
 
 class TestAPICall(unittest.TestCase):
 
-    @patch('test_function.requests.get')
-    @patch('test_function.datetime.datetime')
-    @patch('test_function.time.sleep')
-    @patch('test_function.pd.DataFrame')
-    @patch('test_function.os.getenv')
-    @patch('test_function.logging.info')
+    @patch('dags.data.app_functions_optim.requests.get')
+    @patch('dags.data.app_functions_optim.datetime.datetime')
+    @patch('dags.data.app_functions_optim.time.sleep')
+    @patch('dags.data.app_functions_optim.pd.DataFrame')
+    @patch('dags.data.app_functions_optim.os.getenv')
+    @patch('dags.data.app_functions_optim.logging.info')
     def test_api_call_with_mock(self, mock_logging_info, mock_os_getenv, mock_dataframe, mock_sleep, mock_datetime, mock_requests_get):
         # Set up test data and context
         test_date = '2023-01-01'

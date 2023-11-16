@@ -17,11 +17,9 @@ jobs:
           python-version: 3.8
 
       - name: Install dependencies
-        run: |
-          cd testing
-          pip install requests pandas python-dotenv
+        run:
+          pip install requests pandas python-dotenv google-cloud-bigquery
 
       - name: Run unittest
-        run: |
-          cd testing
-          python test_mock.py
+        run:
+          python -m unittest tests.test_mock
